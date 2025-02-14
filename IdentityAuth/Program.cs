@@ -11,9 +11,10 @@ var connectionString = builder.Configuration.GetConnectionString("AppDbContextCo
 // Add services to the container.
 builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
 builder.Services.AddAuthorizationBuilder();
-builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlite("DataSource=app.db"));
+builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlite(connectionString));
 
-builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
+//if you don't require role use AddDefaultIdentity<userModel>() else use AddIdentity<userModel,roleModel>()
+//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
