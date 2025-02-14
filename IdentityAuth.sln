@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35806.99
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IdentityAuth", "IdentityAuth\IdentityAuth.csproj", "{1483743D-2464-477B-B15B-2E6A2E9EF7FF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthTest", "AuthTest\AuthTest.csproj", "{D4087D02-40A7-4904-A4E5-A42C235C4D94}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1483743D-2464-477B-B15B-2E6A2E9EF7FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1483743D-2464-477B-B15B-2E6A2E9EF7FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1483743D-2464-477B-B15B-2E6A2E9EF7FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1483743D-2464-477B-B15B-2E6A2E9EF7FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4087D02-40A7-4904-A4E5-A42C235C4D94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4087D02-40A7-4904-A4E5-A42C235C4D94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4087D02-40A7-4904-A4E5-A42C235C4D94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4087D02-40A7-4904-A4E5-A42C235C4D94}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7D046BD-5B7B-4E8E-BB65-7BAEBEBFC431}
+	EndGlobalSection
+EndGlobal
