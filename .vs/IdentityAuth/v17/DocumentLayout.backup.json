@@ -1,0 +1,189 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Projects\\Identity\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\scaffoldingreadme.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\scaffoldingreadme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\identityauth.csproj.backup.tmp||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\identityauth.csproj.backup.tmp||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\areas\\identity\\pages\\account\\accessdenied.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\areas\\identity\\pages\\account\\accessdenied.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\areas\\identity\\pages\\account\\loginwithrecoverycode.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\areas\\identity\\pages\\account\\loginwithrecoverycode.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\controllers\\rolescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\controllers\\rolescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\services\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\services\\emailsender.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|d:\\projects\\identity\\identityauth\\models\\rolemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{1483743D-2464-477B-B15B-2E6A2E9EF7FF}|IdentityAuth\\IdentityAuth.csproj|solutionrelative:identityauth\\models\\rolemodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 7,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\appsettings.json",
+              "RelativeDocumentMoniker": "IdentityAuth\\appsettings.json",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\appsettings.json",
+              "RelativeToolTip": "IdentityAuth\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-14T03:24:14.134Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ScaffoldingReadMe.txt",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\ScaffoldingReadMe.txt",
+              "RelativeDocumentMoniker": "IdentityAuth\\ScaffoldingReadMe.txt",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\ScaffoldingReadMe.txt",
+              "RelativeToolTip": "IdentityAuth\\ScaffoldingReadMe.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-02-14T03:22:41.722Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "IdentityAuth.csproj.Backup.tmp",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\IdentityAuth.csproj.Backup.tmp",
+              "RelativeDocumentMoniker": "IdentityAuth\\IdentityAuth.csproj.Backup.tmp",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\IdentityAuth.csproj.Backup.tmp",
+              "RelativeToolTip": "IdentityAuth\\IdentityAuth.csproj.Backup.tmp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-02-14T03:22:39.733Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{0174dea2-fdbe-4ef1-8f99-c0beae78880f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\Program.cs",
+              "RelativeDocumentMoniker": "IdentityAuth\\Program.cs",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\Program.cs*",
+              "RelativeToolTip": "IdentityAuth\\Program.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAACPAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-14T01:23:01.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AccessDenied.cshtml.cs",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\Areas\\Identity\\Pages\\Account\\AccessDenied.cshtml.cs",
+              "RelativeDocumentMoniker": "IdentityAuth\\Areas\\Identity\\Pages\\Account\\AccessDenied.cshtml.cs",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\Areas\\Identity\\Pages\\Account\\AccessDenied.cshtml.cs",
+              "RelativeToolTip": "IdentityAuth\\Areas\\Identity\\Pages\\Account\\AccessDenied.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-14T03:18:45.934Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginWithRecoveryCode.cshtml.cs",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\Areas\\Identity\\Pages\\Account\\LoginWithRecoveryCode.cshtml.cs",
+              "RelativeDocumentMoniker": "IdentityAuth\\Areas\\Identity\\Pages\\Account\\LoginWithRecoveryCode.cshtml.cs",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\Areas\\Identity\\Pages\\Account\\LoginWithRecoveryCode.cshtml.cs",
+              "RelativeToolTip": "IdentityAuth\\Areas\\Identity\\Pages\\Account\\LoginWithRecoveryCode.cshtml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-14T03:16:11.194Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "RolesController.cs",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\Controllers\\RolesController.cs",
+              "RelativeDocumentMoniker": "IdentityAuth\\Controllers\\RolesController.cs",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\Controllers\\RolesController.cs",
+              "RelativeToolTip": "IdentityAuth\\Controllers\\RolesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-14T03:03:51.279Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "RoleModel.cs",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\Models\\RoleModel.cs",
+              "RelativeDocumentMoniker": "IdentityAuth\\Models\\RoleModel.cs",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\Models\\RoleModel.cs",
+              "RelativeToolTip": "IdentityAuth\\Models\\RoleModel.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-14T03:01:43.774Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EmailSender.cs",
+              "DocumentMoniker": "D:\\Projects\\Identity\\IdentityAuth\\Services\\EmailSender.cs",
+              "RelativeDocumentMoniker": "IdentityAuth\\Services\\EmailSender.cs",
+              "ToolTip": "D:\\Projects\\Identity\\IdentityAuth\\Services\\EmailSender.cs",
+              "RelativeToolTip": "IdentityAuth\\Services\\EmailSender.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-14T02:24:33.172Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
