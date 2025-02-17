@@ -1,9 +1,9 @@
-using IdentityAuth.Models;
+using IdentityAuth.Models.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IdentityAuth.Controllers
+namespace IdentityAuth.Controllers.Users
 {
     [Route("[controller]")]
     [ApiController]

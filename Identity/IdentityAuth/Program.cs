@@ -1,12 +1,16 @@
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using IdentityAuth.Data;
 using IdentityAuth.Models;
 using IdentityAuth.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
-var connectionString = builder.Configuration.GetConnectionString("AppDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AppDbContextConnection' not found.");;
+var connectionString = builder.Configuration.GetConnectionString("AppDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AppDbContextConnection' not found."); ;
 
 // Add services to the container.
 builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
@@ -19,9 +23,16 @@ builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddTransient<IEmailSender<User>, EmailSender>();
+builder.Services.AddTransient<IEmailSender<User>, EmailSender1>();
+builder.Services.AddTransient<IEmailSender, EmailSender2>();
 
 builder.Services.AddControllers();
+
+builder.Services.AddFluentValidationAutoValidation() // Enables automatic validation
+                .AddFluentValidationClientsideAdapters(); // Enables client-side validation for MVC
+
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); // Scans & registers all validators
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -65,7 +76,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-app.MapIdentityApi<User>();
+// app.MapIdentityApi<User>();
 
 app.MapControllers();
 

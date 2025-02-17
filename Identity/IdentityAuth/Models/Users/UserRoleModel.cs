@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Identity;
 
-namespace IdentityAuth.Models;
+namespace IdentityAuth.Models.Users;
 
 public class UserRoleModel : IdentityRole
 {
