@@ -20,25 +20,25 @@ namespace IdentityAuth.Controllers.Users
 
         // POST: api/UserRole/assign
         [HttpPost("assign")]
-        public async Task<IActionResult> AssignRole([FromBody] UserRoleModel model)
+        public async Task<IActionResult> AssignRole([FromBody] RoleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             // Find the user by their ID.
-            var user = await _userManager.FindByIdAsync(model?.UserId);
+            var user = await _userManager.FindByIdAsync(model?.Id.ToString());
             if (user == null)
                 return NotFound(new { Message = "User not found." });
 
             // Check if the role exists.
-            if (!await _roleManager.RoleExistsAsync(model.RoleName))
+            if (!await _roleManager.RoleExistsAsync(model.Name))
                 return NotFound(new { Message = "Role not found." });
 
             // Ensure the user is not already in the role.
-            if (await _userManager.IsInRoleAsync(user, model.RoleName))
+            if (await _userManager.IsInRoleAsync(user, model.Name))
                 return BadRequest(new { Message = "User is already in the role." });
 
-            var result = await _userManager.AddToRoleAsync(user, model.RoleName);
+            var result = await _userManager.AddToRoleAsync(user, model.Name);
             if (result.Succeeded)
                 return Ok(new { Message = "Role assigned successfully." });
 
@@ -47,21 +47,21 @@ namespace IdentityAuth.Controllers.Users
 
         // POST: api/UserRole/remove
         [HttpPost("remove")]
-        public async Task<IActionResult> RemoveRole([FromBody] UserRoleModel model)
+        public async Task<IActionResult> RemoveRole([FromBody] RoleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             // Find the user by their ID.
-            var user = await _userManager.FindByIdAsync(model.UserId);
+            var user = await _userManager.FindByIdAsync(model.Id.ToString());
             if (user == null)
                 return NotFound(new { Message = "User not found." });
 
             // Ensure the user is in the role.
-            if (!await _userManager.IsInRoleAsync(user, model.RoleName))
+            if (!await _userManager.IsInRoleAsync(user, model.Name))
                 return BadRequest(new { Message = "User is not in the role." });
 
-            var result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
+            var result = await _userManager.RemoveFromRoleAsync(user, model.Name);
             if (result.Succeeded)
                 return Ok(new { Message = "Role removed successfully." });
 
