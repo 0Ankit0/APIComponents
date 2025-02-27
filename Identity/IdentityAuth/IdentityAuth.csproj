@@ -34,8 +34,4 @@
     <ProjectReference Include="..\AuthTest\AuthTest.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configurations\" />
-  </ItemGroup>
-
 </Project>
