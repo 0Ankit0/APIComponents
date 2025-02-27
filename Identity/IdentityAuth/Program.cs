@@ -8,25 +8,46 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("AppDbContextConnection") ?? throw new InvalidOperationException("Connection string 'AppDbContextConnection' not found."); ;
 
+//Register the TokenService as a singleton
+builder.Services.AddSingleton<ITokenService, TokenService>();
+
 // Add services to the container.
-builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
-builder.Services.AddAuthorizationBuilder();
+// builder.Services.AddAuthentication().AddBearerToken(IdentityConstants.BearerScheme);
+// builder.Services.AddAuthorizationBuilder();
+
+//added custom bearer token scheme
+builder.Services.AddAuthentication()
+    .AddCustomBearerToken(IdentityConstants.BearerScheme, options =>
+    {
+        options.BearerTokenExpiration = TimeSpan.FromMinutes(30); // Set token expiration
+        options.RefreshTokenExpiration = TimeSpan.FromDays(7); // Set refresh token expiration
+    });
+builder.Services.AddAuthorization();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlite(connectionString));
 
 //if you don't require role use AddDefaultIdentity<userModel>() else use AddIdentity<userModel,roleModel>()
-//builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<AppDbContext>();
+//the adddefaulttokenproviders is used to generate token automatically in the login process
 builder.Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
+
 builder.Services.AddTransient<IEmailSender<User>, EmailSender1>();
 builder.Services.AddTransient<IEmailSender, EmailSender2>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+ .AddJsonOptions(options =>
+            {
+                // Add custom serialization settings here if needed
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+            });
 
 builder.Services.AddFluentValidationAutoValidation() // Enables automatic validation
                 .AddFluentValidationClientsideAdapters(); // Enables client-side validation for MVC
@@ -74,6 +95,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 // app.MapIdentityApi<User>();
