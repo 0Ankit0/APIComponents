@@ -12,6 +12,7 @@ using IdentityAuth.Models.Users;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using IdentityAuth.Models;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace IdentityAuth.Controllers
 {
@@ -66,8 +67,9 @@ namespace IdentityAuth.Controllers
             return Ok();
         }
 
+        // To enable password failures to trigger account lockout, set lockoutOnFailure: true
         [HttpPost("login")]
-        public async Task<IActionResult> Login(
+        public async Task<Results<Ok<AccessTokenResponse>, EmptyHttpResult, ProblemHttpResult>> Login(
             [FromBody] LoginRequestModel login,
             [FromQuery] bool? useCookies,
             [FromQuery] bool? useSessionCookies)
@@ -94,11 +96,10 @@ namespace IdentityAuth.Controllers
 
             if (!result.Succeeded)
             {
-                return Problem(result.ToString(), statusCode: StatusCodes.Status401Unauthorized);
+                return TypedResults.Problem(result.ToString(), statusCode: StatusCodes.Status401Unauthorized);
             }
 
-            // For demo purposes, return a dummy access token.
-            return Ok();
+            return TypedResults.Empty;
         }
 
         [HttpPost("refresh")]
