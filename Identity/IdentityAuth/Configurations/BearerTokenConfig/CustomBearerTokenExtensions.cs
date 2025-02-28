@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using IdentityAuth.Configurations;
+using IdentityAuth.Configurations.BearerTokenConfig;
 using IdentityAuth.Models.Users;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.BearerToken;
@@ -67,6 +68,8 @@ public static class BearerTokenExtensions
         ArgumentNullException.ThrowIfNull(authenticationScheme);
         ArgumentNullException.ThrowIfNull(configure);
 
+
+        builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<JsonOptions>, CustomBearerTokenConfigureJsonOptions>());
         builder.Services.TryAddEnumerable(ServiceDescriptor.Singleton<IConfigureOptions<BearerTokenOptions>, CustomBearerTokenConfigureOptions>());
         return builder.AddScheme<BearerTokenOptions, CustomBearerTokenHandler>(authenticationScheme, configure);
     }
