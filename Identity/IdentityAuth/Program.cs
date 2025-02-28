@@ -1,5 +1,6 @@
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using IdentityAuth.Configurations;
 using IdentityAuth.Data;
 using IdentityAuth.Models;
 using IdentityAuth.Services;
@@ -28,6 +29,7 @@ builder.Services.AddAuthentication()
         options.BearerTokenExpiration = TimeSpan.FromMinutes(30); // Set token expiration
         options.RefreshTokenExpiration = TimeSpan.FromDays(7); // Set refresh token expiration
     });
+
 builder.Services.AddAuthorization();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlite(connectionString));
 

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.Extensions.Options;
 
-namespace IdentityAuth.Models.Users;
+namespace IdentityAuth.Configurations;
 
 internal sealed class CustomBearerTokenConfigureOptions(IDataProtectionProvider dp) : IConfigureNamedOptions<BearerTokenOptions>
 {

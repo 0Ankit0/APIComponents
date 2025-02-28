@@ -3,11 +3,8 @@ using System.Text.Encodings.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
-using FluentValidation;
-using FluentValidation.Results;
 using IdentityAuth.Models.Users;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using IdentityAuth.Models;
@@ -190,7 +187,7 @@ namespace IdentityAuth.Controllers
         public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequestModel resetRequest)
         {
             var user = await _userManager.FindByEmailAsync(resetRequest.Email);
-            if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
+            if (user == null || !await _userManager.IsEmailConfirmedAsync(user))
             {
                 var error = _userManager.ErrorDescriber.InvalidToken();
                 return CreateValidationProblem(error.Code, error.Description);

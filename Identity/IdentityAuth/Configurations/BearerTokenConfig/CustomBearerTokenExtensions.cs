@@ -1,7 +1,3 @@
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
-using IdentityAuth.Configurations;
 using IdentityAuth.Configurations.BearerTokenConfig;
 using IdentityAuth.Models.Users;
 using Microsoft.AspNetCore.Authentication;
@@ -10,12 +6,12 @@ using Microsoft.AspNetCore.Http.Json;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Options;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace IdentityAuth.Configurations;
 
 /// <summary>
 /// Extension methods to configure the bearer token authentication.
 /// </summary>
-public static class BearerTokenExtensions
+public static class CustomBearerTokenExtensions
 {
     /// <summary>
     /// Adds bearer token authentication. The default scheme is specified by <see cref="BearerTokenDefaults.AuthenticationScheme"/>.
