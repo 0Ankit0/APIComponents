@@ -1,3 +1,4 @@
+using IdentityAuth.Models;
 using IdentityAuth.Models.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -9,10 +10,10 @@ namespace IdentityAuth.Controllers.Users
     [ApiController]
     public class UserRoleController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<Roles> _roleManager;
 
-        public UserRoleController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public UserRoleController(UserManager<User> userManager, RoleManager<Roles> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -20,7 +21,7 @@ namespace IdentityAuth.Controllers.Users
 
         // POST: api/UserRole/assign
         [HttpPost("assign")]
-        public async Task<IActionResult> AssignRole([FromBody] RoleModel model)
+        public async Task<IActionResult> AssignRole([FromBody] UserRoleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -47,7 +48,7 @@ namespace IdentityAuth.Controllers.Users
 
         // POST: api/UserRole/remove
         [HttpPost("remove")]
-        public async Task<IActionResult> RemoveRole([FromBody] RoleModel model)
+        public async Task<IActionResult> RemoveRole([FromBody] UserRoleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

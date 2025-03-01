@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using IdentityAuth.Configurations;
 using IdentityAuth.Data;
 using IdentityAuth.Models;
+using IdentityAuth.Models.Users;
 using IdentityAuth.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -33,15 +34,15 @@ builder.Services.AddAuthentication()
 builder.Services.AddAuthorization();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlite(connectionString));
 
-//if you don't require role use AddDefaultIdentity<userModel>() else use AddIdentity<userModel,roleModel>()
+//if you don't require role use AddDefaultIdentity<userModel>() else use AddIdentity<userModel,roleModel<IdType>>()
 //the adddefaulttokenproviders is used to generate token automatically in the login process
-builder.Services.AddIdentity<User, IdentityRole>()
+builder.Services.AddIdentity<User, Roles<Guid>>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
 
-builder.Services.AddTransient<IEmailSender<User>, EmailSender1>();
-builder.Services.AddTransient<IEmailSender, EmailSender2>();
+builder.Services.AddTransient<IEmailSender<User>, EmailSender>();
+// builder.Services.AddTransient<IEmailSender, EmailSender2>();
 
 builder.Services.AddControllers()
  .AddJsonOptions(options =>

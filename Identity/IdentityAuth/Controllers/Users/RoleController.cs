@@ -1,4 +1,5 @@
 using IdentityAuth.Models.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,11 +8,12 @@ namespace IdentityAuth.Controllers.Users
 {
     [Route("[controller]")]
     [ApiController]
+    [Authorize]
     public class RolesController : ControllerBase
     {
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<Roles> _roleManager;
 
-        public RolesController(RoleManager<IdentityRole> roleManager)
+        public RolesController(RoleManager<Roles> roleManager)
         {
             _roleManager = roleManager;
         }
@@ -36,7 +38,7 @@ namespace IdentityAuth.Controllers.Users
 
         // POST: api/roles
         [HttpPost]
-        public async Task<IActionResult> CreateRole([FromBody] RoleModel model)
+        public async Task<IActionResult> CreateRole([FromBody] UserRoleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -45,7 +47,7 @@ namespace IdentityAuth.Controllers.Users
             if (await _roleManager.RoleExistsAsync(model.Name))
                 return BadRequest(new { message = "Role already exists." });
 
-            var role = new IdentityRole(model.Name);
+            var role = new Roles(model.Name);
             var result = await _roleManager.CreateAsync(role);
             if (result.Succeeded)
                 return CreatedAtAction(nameof(GetRoleById), new { id = role.Id }, role);
@@ -55,7 +57,7 @@ namespace IdentityAuth.Controllers.Users
 
         // PUT: api/roles/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRole(string id, [FromBody] RoleModel model)
+        public async Task<IActionResult> UpdateRole(string id, [FromBody] UserRoleModel model)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
