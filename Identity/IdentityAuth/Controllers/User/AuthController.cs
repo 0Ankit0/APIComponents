@@ -7,19 +7,20 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
 using IdentityAuth.Models.Users;
 using Microsoft.AspNetCore.Authentication.BearerToken;
-using IdentityAuth.Models;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http.HttpResults;
+using IdentityAuth.Data;
+using Microsoft.AspNetCore.Authentication;
 
-namespace IdentityAuth.Controllers
+namespace IdentityAuth.Controllers.User
 {
     [ApiController]
     [Route("api/[controller]")]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
-        private readonly SignInManager<User> _signInManager;
-        private readonly IEmailSender<User> _emailSender;
+        private readonly UserManager<Users> _userManager;
+        private readonly SignInManager<Users> _signInManager;
+        private readonly IEmailSender<Users> _emailSender;
         private readonly LinkGenerator _linkGenerator;
         private readonly TimeProvider _timeProvider;
         private readonly IOptionsMonitor<BearerTokenOptions> _bearerTokenOptions;
@@ -27,9 +28,9 @@ namespace IdentityAuth.Controllers
         private static readonly EmailAddressAttribute _emailAddressAttribute = new();
 
         public AuthController(
-            UserManager<User> userManager,
-            SignInManager<User> signInManager,
-            IEmailSender<User> emailSender,
+            UserManager<Users> userManager,
+            SignInManager<Users> signInManager,
+            IEmailSender<Users> emailSender,
             LinkGenerator linkGenerator,
             TimeProvider timeProvider,
             IOptionsMonitor<BearerTokenOptions> bearerTokenOptions
@@ -53,7 +54,7 @@ namespace IdentityAuth.Controllers
                 return CreateValidationProblem(error.Code, error.Description);
             }
 
-            User user = new User { UserName = registration.Email, Email = registration.Email };
+            Users user = new Users { UserName = registration.Email, Email = registration.Email };
             IdentityResult result = await _userManager.CreateAsync(user, registration.Password);
             if (!result.Succeeded)
             {
@@ -107,7 +108,7 @@ namespace IdentityAuth.Controllers
 
             if (refreshTicket?.Properties?.ExpiresUtc is not { } expiresUtc ||
                 _timeProvider.GetUtcNow() >= expiresUtc ||
-                await _signInManager.ValidateSecurityStampAsync(refreshTicket.Principal) is not User user)
+                await _signInManager.ValidateSecurityStampAsync(refreshTicket.Principal) is not Users user)
             {
                 return Challenge();
             }
@@ -290,7 +291,7 @@ namespace IdentityAuth.Controllers
         }
 
         [HttpGet("manage/info")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = "Identity.Bearer")]
         public async Task<IActionResult> GetInfo()
         {
             var user = await _userManager.GetUserAsync(User);
@@ -309,7 +310,6 @@ namespace IdentityAuth.Controllers
         }
 
         [HttpPost("manage/info")]
-        [Authorize]
         public async Task<IActionResult> UpdateInfo([FromBody] InfoRequestModel infoRequest)
         {
             var user = await _userManager.GetUserAsync(User);
@@ -357,7 +357,7 @@ namespace IdentityAuth.Controllers
 
         // -------------------- Private Helpers --------------------
 
-        private async Task SendConfirmationEmailAsync(User user, string email, bool isChange = false)
+        private async Task SendConfirmationEmailAsync(Users user, string email, bool isChange = false)
         {
             string code = isChange
                 ? await _userManager.GenerateChangeEmailTokenAsync(user, email)

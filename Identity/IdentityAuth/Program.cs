@@ -2,13 +2,10 @@ using FluentValidation;
 using FluentValidation.AspNetCore;
 using IdentityAuth.Configurations;
 using IdentityAuth.Data;
-using IdentityAuth.Models;
 using IdentityAuth.Models.Users;
 using IdentityAuth.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -30,18 +27,18 @@ builder.Services.AddAuthentication()
         options.BearerTokenExpiration = TimeSpan.FromMinutes(30); // Set token expiration
         options.RefreshTokenExpiration = TimeSpan.FromDays(7); // Set refresh token expiration
     });
+AuthorizationPolicyConfig.ConfigurePolicies(builder.Services);
 
-builder.Services.AddAuthorization();
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlite(connectionString));
 
 //if you don't require role use AddDefaultIdentity<userModel>() else use AddIdentity<userModel,roleModel<IdType>>()
 //the adddefaulttokenproviders is used to generate token automatically in the login process
-builder.Services.AddIdentity<User, Roles<Guid>>()
+builder.Services.AddIdentity<Users, Roles>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
 
-builder.Services.AddTransient<IEmailSender<User>, EmailSender>();
+builder.Services.AddTransient<IEmailSender<Users>, EmailSender>();
 // builder.Services.AddTransient<IEmailSender, EmailSender2>();
 
 builder.Services.AddControllers()
@@ -57,37 +54,16 @@ builder.Services.AddFluentValidationAutoValidation() // Enables automatic valida
 
 builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly()); // Scans & registers all validators
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options
-    .AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
-        In = ParameterLocation.Header,
-        Description = "Please enter Bearer token",
-        Name = "Authorization",
-        Type = SecuritySchemeType.Http,
-        BearerFormat = "IdentityAuth",
-        Scheme = "bearer"
-    });
-    options
-    .AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            new string[] { }
-        }
-    });
-});
+var swaggerConfig = new SwaggerConfig(builder.Configuration);
+swaggerConfig.ConfigureServices(builder.Services);
+
 var app = builder.Build();
+// Ensure roles exist before handling requests
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    await AuthorizationPolicyConfig.EnsureRolesExistAsync(services);
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -97,6 +73,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
 
 app.UseAuthentication();
 app.UseAuthorization();

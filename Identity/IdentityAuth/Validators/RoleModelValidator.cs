@@ -4,9 +4,9 @@ using IdentityAuth.Models.Users;
 
 namespace IdentityAuth.Validators;
 
-public class UserRoleValidator : AbstractValidator<UserRoleModel>
+public class RoleModelValidator : AbstractValidator<RoleModel>
 {
-    public UserRoleValidator()
+    public RoleModelValidator()
     {
         RuleFor(x => x.Name).NotEmpty().WithMessage("Role name is required.");
     }

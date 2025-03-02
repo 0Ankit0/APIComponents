@@ -1,19 +1,20 @@
+using IdentityAuth.Data;
 using IdentityAuth.Models;
 using IdentityAuth.Models.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace IdentityAuth.Controllers.Users
+namespace IdentityAuth.Controllers.User
 {
     [Route("api/[controller]")]
     [ApiController]
     public class UserRoleController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
+        private readonly UserManager<Users> _userManager;
         private readonly RoleManager<Roles> _roleManager;
 
-        public UserRoleController(UserManager<User> userManager, RoleManager<Roles> roleManager)
+        public UserRoleController(UserManager<Users> userManager, RoleManager<Roles> roleManager)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -27,19 +28,19 @@ namespace IdentityAuth.Controllers.Users
                 return BadRequest(ModelState);
 
             // Find the user by their ID.
-            var user = await _userManager.FindByIdAsync(model?.Id.ToString());
+            var user = await _userManager.FindByIdAsync(model?.UserId.ToString());
             if (user == null)
                 return NotFound(new { Message = "User not found." });
 
             // Check if the role exists.
-            if (!await _roleManager.RoleExistsAsync(model.Name))
+            if (!await _roleManager.RoleExistsAsync(model.RoleName))
                 return NotFound(new { Message = "Role not found." });
 
             // Ensure the user is not already in the role.
-            if (await _userManager.IsInRoleAsync(user, model.Name))
+            if (await _userManager.IsInRoleAsync(user, model.RoleName))
                 return BadRequest(new { Message = "User is already in the role." });
 
-            var result = await _userManager.AddToRoleAsync(user, model.Name);
+            var result = await _userManager.AddToRoleAsync(user, model.RoleName);
             if (result.Succeeded)
                 return Ok(new { Message = "Role assigned successfully." });
 
@@ -54,15 +55,15 @@ namespace IdentityAuth.Controllers.Users
                 return BadRequest(ModelState);
 
             // Find the user by their ID.
-            var user = await _userManager.FindByIdAsync(model.Id.ToString());
+            var user = await _userManager.FindByIdAsync(model.UserId.ToString());
             if (user == null)
                 return NotFound(new { Message = "User not found." });
 
             // Ensure the user is in the role.
-            if (!await _userManager.IsInRoleAsync(user, model.Name))
+            if (!await _userManager.IsInRoleAsync(user, model.RoleName))
                 return BadRequest(new { Message = "User is not in the role." });
 
-            var result = await _userManager.RemoveFromRoleAsync(user, model.Name);
+            var result = await _userManager.RemoveFromRoleAsync(user, model.RoleName);
             if (result.Succeeded)
                 return Ok(new { Message = "Role removed successfully." });
 

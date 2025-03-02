@@ -19,6 +19,8 @@ internal sealed class CustomBearerTokenHandler(IOptionsMonitor<BearerTokenOption
 
     protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
     {
+        Logger.LogInformation("🔥 HandleAuthenticateAsync() triggered!");
+
         // Give application opportunity to find from a different location, adjust, or reject token.
         var messageReceivedContext = new MessageReceivedContext(Context, Scheme, Options);
 
@@ -45,7 +47,7 @@ internal sealed class CustomBearerTokenHandler(IOptionsMonitor<BearerTokenOption
 
         if (TimeProvider.GetUtcNow() >= expiresUtc)
         {
-            return TokenExpired;
+            return AuthenticateResult.Fail("Token expired");
         }
 
         return AuthenticateResult.Success(ticket);
