@@ -21,12 +21,18 @@ builder.Services.AddSingleton<ITokenService, TokenService>();
 // builder.Services.AddAuthorizationBuilder();
 
 //added custom bearer token scheme
-builder.Services.AddAuthentication()
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = IdentityConstants.BearerScheme;
+    options.DefaultChallengeScheme = IdentityConstants.BearerScheme;
+    options.DefaultScheme = IdentityConstants.BearerScheme;
+})
     .AddCustomBearerToken(IdentityConstants.BearerScheme, options =>
     {
         options.BearerTokenExpiration = TimeSpan.FromMinutes(30); // Set token expiration
         options.RefreshTokenExpiration = TimeSpan.FromDays(7); // Set refresh token expiration
     });
+
 AuthorizationPolicyConfig.ConfigurePolicies(builder.Services);
 
 builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlite(connectionString));

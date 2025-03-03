@@ -47,7 +47,7 @@ internal sealed class CustomBearerTokenHandler(IOptionsMonitor<BearerTokenOption
 
         if (TimeProvider.GetUtcNow() >= expiresUtc)
         {
-            return AuthenticateResult.Fail("Token expired");
+            return TokenExpired;
         }
 
         return AuthenticateResult.Success(ticket);

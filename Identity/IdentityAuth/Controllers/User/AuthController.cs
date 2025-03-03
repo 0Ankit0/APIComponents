@@ -291,7 +291,7 @@ namespace IdentityAuth.Controllers.User
         }
 
         [HttpGet("manage/info")]
-        [Authorize(AuthenticationSchemes = "Identity.Bearer")]
+        [Authorize]
         public async Task<IActionResult> GetInfo()
         {
             var user = await _userManager.GetUserAsync(User);
