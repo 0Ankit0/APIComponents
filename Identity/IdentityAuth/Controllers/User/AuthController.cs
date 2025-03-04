@@ -11,6 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http.HttpResults;
 using IdentityAuth.Data;
 using Microsoft.AspNetCore.Authentication;
+using IdentityAuth.Filters;
 
 namespace IdentityAuth.Controllers.User
 {
@@ -291,7 +292,7 @@ namespace IdentityAuth.Controllers.User
         }
 
         [HttpGet("manage/info")]
-        [Authorize]
+        [TokenAuth]
         public async Task<IActionResult> GetInfo()
         {
             var user = await _userManager.GetUserAsync(User);
