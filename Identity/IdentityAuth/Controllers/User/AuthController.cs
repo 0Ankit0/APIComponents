@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authentication.BearerToken;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http.HttpResults;
 using IdentityAuth.Data;
-using Microsoft.AspNetCore.Authentication;
 using IdentityAuth.Filters;
 
 namespace IdentityAuth.Controllers.User
@@ -303,7 +302,8 @@ namespace IdentityAuth.Controllers.User
 
             var info = new InfoResponseModel
             {
-                Email = await _userManager.GetEmailAsync(user),
+                Id = user.Id,
+                Email = user.Email,
                 IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user)
             };
 
