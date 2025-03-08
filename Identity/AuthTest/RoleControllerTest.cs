@@ -5,25 +5,23 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Moq;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace IdentityAuth.Controllers.User.Tests
+namespace AuthTest
 {
     public class RolesControllerTest
     {
-        private readonly RoleManager<Roles> _roleManager;
-        private readonly RolesController _controller;
-        private readonly DbContextOptions<AppDbContext> _dbContextOptions;
-        private readonly AppDbContext _context;
+        private RoleManager<Roles> _roleManager;
+        private RolesController _controller;
+        private DbContextOptions<AppDbContext> _dbContextOptions;
+        private AppDbContext _context;
 
-        public RolesControllerTest()
+        private void InitializeTest(string databaseName)
         {
             _dbContextOptions = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "InMemoryDb")
+                .UseInMemoryDatabase(databaseName: databaseName)
                 .Options;
 
             _context = new AppDbContext(_dbContextOptions);
@@ -36,6 +34,7 @@ namespace IdentityAuth.Controllers.User.Tests
         public void GetRoles_ReturnsOkResult_WithListOfRoles()
         {
             // Arrange
+            InitializeTest(nameof(GetRoles_ReturnsOkResult_WithListOfRoles));
             _context.Roles.AddRange(new Roles("Admin"), new Roles("User"));
             _context.SaveChanges();
 
@@ -52,6 +51,7 @@ namespace IdentityAuth.Controllers.User.Tests
         public async Task GetRoleById_ReturnsOkResult_WithRole()
         {
             // Arrange
+            InitializeTest(nameof(GetRoleById_ReturnsOkResult_WithRole));
             _context.Roles.Add(new Roles("Admin") { Id = "1" });
             _context.SaveChanges();
 
@@ -67,6 +67,9 @@ namespace IdentityAuth.Controllers.User.Tests
         [Fact]
         public async Task GetRoleById_ReturnsNotFound_WhenRoleDoesNotExist()
         {
+            // Arrange
+            InitializeTest(nameof(GetRoleById_ReturnsNotFound_WhenRoleDoesNotExist));
+
             // Act
             var result = await _controller.GetRoleById("1");
 
@@ -78,6 +81,7 @@ namespace IdentityAuth.Controllers.User.Tests
         public async Task CreateRole_ReturnsCreatedAtActionResult_WithRole()
         {
             // Arrange
+            InitializeTest(nameof(CreateRole_ReturnsCreatedAtActionResult_WithRole));
             var model = new RoleModel { Name = "Admin" };
 
             // Act
@@ -93,8 +97,8 @@ namespace IdentityAuth.Controllers.User.Tests
         public async Task CreateRole_ReturnsBadRequest_WhenRoleExists()
         {
             // Arrange
-            _context.Roles.Add(new Roles("Admin"));
-            _context.SaveChanges();
+            InitializeTest(nameof(CreateRole_ReturnsBadRequest_WhenRoleExists));
+            var roleCreation = await _roleManager.CreateAsync(new Roles("Admin"));
             var model = new RoleModel { Name = "Admin" };
 
             // Act
@@ -102,13 +106,14 @@ namespace IdentityAuth.Controllers.User.Tests
 
             // Assert
             var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
-            Assert.Equal("Role already exists.", ((dynamic)badRequestResult.Value).message);
+            badRequestResult.Value.Equals(new { message = "Role already exists." });
         }
 
         [Fact]
         public async Task UpdateRole_ReturnsNoContent_WhenUpdateIsSuccessful()
         {
             // Arrange
+            InitializeTest(nameof(UpdateRole_ReturnsNoContent_WhenUpdateIsSuccessful));
             _context.Roles.Add(new Roles("Admin") { Id = "1" });
             _context.SaveChanges();
             var model = new RoleModel { Name = "SuperAdmin" };
@@ -124,6 +129,7 @@ namespace IdentityAuth.Controllers.User.Tests
         public async Task UpdateRole_ReturnsNotFound_WhenRoleDoesNotExist()
         {
             // Arrange
+            InitializeTest(nameof(UpdateRole_ReturnsNotFound_WhenRoleDoesNotExist));
             var model = new RoleModel { Name = "SuperAdmin" };
 
             // Act
@@ -137,6 +143,7 @@ namespace IdentityAuth.Controllers.User.Tests
         public async Task DeleteRole_ReturnsNoContent_WhenDeleteIsSuccessful()
         {
             // Arrange
+            InitializeTest(nameof(DeleteRole_ReturnsNoContent_WhenDeleteIsSuccessful));
             _context.Roles.Add(new Roles("Admin") { Id = "1" });
             _context.SaveChanges();
 
@@ -150,6 +157,9 @@ namespace IdentityAuth.Controllers.User.Tests
         [Fact]
         public async Task DeleteRole_ReturnsNotFound_WhenRoleDoesNotExist()
         {
+            // Arrange
+            InitializeTest(nameof(DeleteRole_ReturnsNotFound_WhenRoleDoesNotExist));
+
             // Act
             var result = await _controller.DeleteRole("1");
 
