@@ -1,3 +1,4 @@
 ## Different Api Components
-* Identity Auth
+* Identity Auth(Token based authentication)
 * Logging
+* Caching
