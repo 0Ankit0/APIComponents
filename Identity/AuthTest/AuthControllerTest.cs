@@ -1,9 +1,7 @@
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Moq;
-using Xunit;
 using FluentAssertions;
 using IdentityAuth.Controllers.User;
 using IdentityAuth.Models.Users;
@@ -12,32 +10,34 @@ using Microsoft.Extensions.Options;
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
-using IdentityAuth.Filters;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.EntityFrameworkCore;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
+using Xunit;
 
 namespace AuthTest
 {
     public class AuthControllerTest
     {
-        private readonly Mock<UserManager<Users>> _mockUserManager;
-        private readonly Mock<SignInManager<Users>> _mockSignInManager;
-        private readonly Mock<IEmailSender<Users>> _mockEmailSender;
-        private readonly Mock<LinkGenerator> _mockLinkGenerator;
-        private readonly Mock<TimeProvider> _mockTimeProvider;
-        private readonly Mock<IOptionsMonitor<BearerTokenOptions>> _mockBearerTokenOptions;
-        private readonly AuthController _controller;
-        private readonly AppDbContext _context;
+        private Mock<UserManager<Users>> _mockUserManager;
+        private Mock<SignInManager<Users>> _mockSignInManager;
+        private Mock<IEmailSender<Users>> _mockEmailSender;
+        private Mock<LinkGenerator> _mockLinkGenerator;
+        private Mock<TimeProvider> _mockTimeProvider;
+        private Mock<IOptionsMonitor<BearerTokenOptions>> _mockBearerTokenOptions;
+        private AuthController _controller;
+        private DbContextOptions<AppDbContext> _dbContextOptions;
+        private AppDbContext _context;
 
-        public AuthControllerTest()
+        private void InitializeTest(string databaseName)
         {
-            var options = new DbContextOptionsBuilder<AppDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
+            _dbContextOptions = new DbContextOptionsBuilder<AppDbContext>()
+                .UseInMemoryDatabase(databaseName: databaseName)
                 .Options;
-            _context = new AppDbContext(options);
+
+            _context = new AppDbContext(_dbContextOptions);
 
             _mockUserManager = new Mock<UserManager<Users>>(
                 Mock.Of<IUserStore<Users>>(), null, null, null, null, null, null, null, null);
@@ -61,6 +61,7 @@ namespace AuthTest
         public async Task Register_InvalidEmail_ReturnsValidationProblem()
         {
             // Arrange
+            InitializeTest(nameof(Register_InvalidEmail_ReturnsValidationProblem));
             var registration = new RegisterUserModel { Email = "invalid-email", Password = "Password123!" };
 
             // Act
@@ -78,6 +79,7 @@ namespace AuthTest
         public async Task Register_ValidEmail_ReturnsOk()
         {
             // Arrange
+            InitializeTest(nameof(Register_ValidEmail_ReturnsOk));
             var registration = new RegisterUserModel { Email = "test@example.com", Password = "Password123!" };
             _mockUserManager.Setup(x => x.CreateAsync(It.IsAny<Users>(), It.IsAny<string>()))
                 .ReturnsAsync(IdentityResult.Success);
@@ -93,9 +95,10 @@ namespace AuthTest
         public async Task Login_InvalidCredentials_ReturnsUnauthorized()
         {
             // Arrange
+            InitializeTest(nameof(Login_InvalidCredentials_ReturnsUnauthorized));
             var login = new LoginRequestModel { Email = "test@example.com", Password = "wrongpassword" };
             _mockSignInManager.Setup(x => x.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()))
-                .ReturnsAsync(Microsoft.AspNetCore.Identity.SignInResult.Failed);
+                .ReturnsAsync(SignInResult.Failed);
 
             // Act
             var result = await _controller.Login(login, null, null);
@@ -110,6 +113,7 @@ namespace AuthTest
         public async Task Login_ValidCredentials_ReturnsEmpty()
         {
             // Arrange
+            InitializeTest(nameof(Login_ValidCredentials_ReturnsEmpty));
             var login = new LoginRequestModel { Email = "test@example.com", Password = "Password123!" };
             _mockSignInManager.Setup(x => x.PasswordSignInAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<bool>(), It.IsAny<bool>()))
                 .ReturnsAsync(SignInResult.Success);
@@ -125,6 +129,7 @@ namespace AuthTest
         public async Task Refresh_InvalidToken_ReturnsChallenge()
         {
             // Arrange
+            InitializeTest(nameof(Refresh_InvalidToken_ReturnsChallenge));
             var refreshRequest = new RefreshRequestModel { RefreshToken = "invalid-token" };
             _mockBearerTokenOptions.Setup(x => x.Get(It.IsAny<string>()).RefreshTokenProtector.Unprotect(It.IsAny<string>()))
                 .Returns((AuthenticationTicket)null);
@@ -140,6 +145,7 @@ namespace AuthTest
         public async Task Refresh_ValidToken_ReturnsSignIn()
         {
             // Arrange
+            InitializeTest(nameof(Refresh_ValidToken_ReturnsSignIn));
             var refreshRequest = new RefreshRequestModel { RefreshToken = "valid-token" };
             var ticket = new AuthenticationTicket(new System.Security.Claims.ClaimsPrincipal(), new AuthenticationProperties(), "Bearer");
             _mockBearerTokenOptions.Setup(x => x.Get(It.IsAny<string>()).RefreshTokenProtector.Unprotect(It.IsAny<string>()))
@@ -158,6 +164,7 @@ namespace AuthTest
         public async Task ConfirmEmail_InvalidCode_ReturnsUnauthorized()
         {
             // Arrange
+            InitializeTest(nameof(ConfirmEmail_InvalidCode_ReturnsUnauthorized));
             var userId = "user-id";
             var code = "invalid-code";
             _mockUserManager.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new Users());
@@ -173,6 +180,7 @@ namespace AuthTest
         public async Task ConfirmEmail_ValidCode_ReturnsContent()
         {
             // Arrange
+            InitializeTest(nameof(ConfirmEmail_ValidCode_ReturnsContent));
             var userId = "user-id";
             var code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes("valid-code"));
             _mockUserManager.Setup(x => x.FindByIdAsync(userId)).ReturnsAsync(new Users());
@@ -189,6 +197,7 @@ namespace AuthTest
         public async Task ResendConfirmationEmail_UserExists_SendsEmail()
         {
             // Arrange
+            InitializeTest(nameof(ResendConfirmationEmail_UserExists_SendsEmail));
             var resendRequest = new ResendConfirmationEmailRequestModel { Email = "test@example.com" };
             _mockUserManager.Setup(x => x.FindByEmailAsync(resendRequest.Email)).ReturnsAsync(new Users());
 
@@ -204,6 +213,7 @@ namespace AuthTest
         public async Task ForgotPassword_UserExists_SendsEmail()
         {
             // Arrange
+            InitializeTest(nameof(ForgotPassword_UserExists_SendsEmail));
             var resetRequest = new ForgotPasswordRequestModel { Email = "test@example.com" };
             _mockUserManager.Setup(x => x.FindByEmailAsync(resetRequest.Email)).ReturnsAsync(new Users());
             _mockUserManager.Setup(x => x.IsEmailConfirmedAsync(It.IsAny<Users>())).ReturnsAsync(true);
@@ -221,6 +231,7 @@ namespace AuthTest
         public async Task ResetPassword_InvalidToken_ReturnsValidationProblem()
         {
             // Arrange
+            InitializeTest(nameof(ResetPassword_InvalidToken_ReturnsValidationProblem));
             var resetRequest = new ResetPasswordRequestModel { Email = "test@example.com", ResetCode = "invalid-code", NewPassword = "NewPassword123!" };
             _mockUserManager.Setup(x => x.FindByEmailAsync(resetRequest.Email)).ReturnsAsync(new Users());
             _mockUserManager.Setup(x => x.IsEmailConfirmedAsync(It.IsAny<Users>())).ReturnsAsync(true);
@@ -239,6 +250,7 @@ namespace AuthTest
         public async Task ResetPassword_ValidToken_ReturnsOk()
         {
             // Arrange
+            InitializeTest(nameof(ResetPassword_ValidToken_ReturnsOk));
             var resetRequest = new ResetPasswordRequestModel { Email = "test@example.com", ResetCode = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes("valid-code")), NewPassword = "NewPassword123!" };
             _mockUserManager.Setup(x => x.FindByEmailAsync(resetRequest.Email)).ReturnsAsync(new Users());
             _mockUserManager.Setup(x => x.IsEmailConfirmedAsync(It.IsAny<Users>())).ReturnsAsync(true);
@@ -255,6 +267,7 @@ namespace AuthTest
         public async Task TwoFactor_EnableWithInvalidCode_ReturnsValidationProblem()
         {
             // Arrange
+            InitializeTest(nameof(TwoFactor_EnableWithInvalidCode_ReturnsValidationProblem));
             var tfaRequest = new TwoFactorRequestModel { Enable = true, TwoFactorCode = "invalid-code" };
             _mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).ReturnsAsync(new Users());
             _mockUserManager.Setup(x => x.VerifyTwoFactorTokenAsync(It.IsAny<Users>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(false);
@@ -272,6 +285,7 @@ namespace AuthTest
         public async Task TwoFactor_EnableWithValidCode_ReturnsOk()
         {
             // Arrange
+            InitializeTest(nameof(TwoFactor_EnableWithValidCode_ReturnsOk));
             var tfaRequest = new TwoFactorRequestModel { Enable = true, TwoFactorCode = "valid-code" };
             _mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).ReturnsAsync(new Users());
             _mockUserManager.Setup(x => x.VerifyTwoFactorTokenAsync(It.IsAny<Users>(), It.IsAny<string>(), It.IsAny<string>())).ReturnsAsync(true);
@@ -287,6 +301,7 @@ namespace AuthTest
         public async Task GetInfo_UserExists_ReturnsOk()
         {
             // Arrange
+            InitializeTest(nameof(GetInfo_UserExists_ReturnsOk));
             _mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).ReturnsAsync(new Users());
             _mockUserManager.Setup(x => x.GetEmailAsync(It.IsAny<Users>())).ReturnsAsync("test@example.com");
             _mockUserManager.Setup(x => x.IsEmailConfirmedAsync(It.IsAny<Users>())).ReturnsAsync(true);
@@ -306,6 +321,7 @@ namespace AuthTest
         public async Task UpdateInfo_InvalidEmail_ReturnsValidationProblem()
         {
             // Arrange
+            InitializeTest(nameof(UpdateInfo_InvalidEmail_ReturnsValidationProblem));
             var infoRequest = new InfoRequestModel { NewEmail = "invalid-email" };
             _mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).ReturnsAsync(new Users());
 
@@ -322,6 +338,7 @@ namespace AuthTest
         public async Task UpdateInfo_ValidEmail_ReturnsOk()
         {
             // Arrange
+            InitializeTest(nameof(UpdateInfo_ValidEmail_ReturnsOk));
             var infoRequest = new InfoRequestModel { NewEmail = "test@example.com" };
             _mockUserManager.Setup(x => x.GetUserAsync(It.IsAny<System.Security.Claims.ClaimsPrincipal>())).ReturnsAsync(new Users());
             _mockUserManager.Setup(x => x.GetEmailAsync(It.IsAny<Users>())).ReturnsAsync("old@example.com");
