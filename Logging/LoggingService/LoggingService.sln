@@ -1,10 +1,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35806.99 d17.13
+VisualStudioVersion = 17.13.35806.99
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingService.AppHost", "LoggingService.AppHost\LoggingService.AppHost.csproj", "{08628E67-A1B6-44CE-9DEB-89B1451D9D53}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingService.ServiceDefaults", "LoggingService.ServiceDefaults\LoggingService.ServiceDefaults.csproj", "{6A9C647E-C730-2789-A288-733AE78FFD20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingApi", "LoggingApi\LoggingApi.csproj", "{598D9A13-6615-4177-832F-FBDABF8E7A34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,6 +22,10 @@ Global
 		{6A9C647E-C730-2789-A288-733AE78FFD20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A9C647E-C730-2789-A288-733AE78FFD20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A9C647E-C730-2789-A288-733AE78FFD20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{598D9A13-6615-4177-832F-FBDABF8E7A34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{598D9A13-6615-4177-832F-FBDABF8E7A34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{598D9A13-6615-4177-832F-FBDABF8E7A34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{598D9A13-6615-4177-832F-FBDABF8E7A34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
