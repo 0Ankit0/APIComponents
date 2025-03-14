@@ -1,3 +1,4 @@
+using CacheService.ServiceDefaults.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.Extensions.DependencyInjection;
@@ -37,6 +38,9 @@ public static class Extensions
         // {
         //     options.AllowedSchemes = ["https"];
         // });
+
+        //Add Custom Services
+        builder.Services.AddScoped<IRedisCacheService, RedisCacheService>();
 
         return builder;
     }
