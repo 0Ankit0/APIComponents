@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using SubscriptionAuth.Data;
+using SubscriptionAuth.Infrastructure;
 using SubscriptionAuth.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,6 +22,19 @@ builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 
+builder.Services.AddScoped<SubscriptionService>();
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("BasicSubscription", policy =>
+        policy.Requirements.Add(new SubscriptionRequirement(new List<string> { "Basic", "Premium", "VIP" })));
+    options.AddPolicy("PremiumSubscription", policy =>
+        policy.Requirements.Add(new SubscriptionRequirement(new List<string> { "Premium", "VIP" })));
+    options.AddPolicy("VIPSubscription", policy =>
+        policy.Requirements.Add(new SubscriptionRequirement(new List<string> { "VIP" })));
+});
+
+builder.Services.AddSingleton<IAuthorizationHandler, SubscriptionHandler>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
